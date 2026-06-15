@@ -1,0 +1,18 @@
+{
+  "name": "IKM Laundry - Jasa Laundry Rumah Sakit & Linen Rental Profesional",
+  "short_name": "IKM Laundry",
+  "description": "Jasa laundry rumah sakit, linen rental, pengelolaan linen infeksius dan non-infeksius untuk wilayah Cibubur, Jabodetabek.",
+  "theme_color": "#0e7c8a",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/logo/logo-ikm.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
