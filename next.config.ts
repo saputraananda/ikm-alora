@@ -12,11 +12,22 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "**",
       },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
     ],
+    unoptimized: false,
   },
   compress: true,
   poweredByHeader: false,
   generateEtags: true,
+  reactStrictMode: true,
+  trailingSlash: false,
+  skipTrailingSlashRedirect: true,
+  experimental: {
+    optimizeCss: true,
+  },
 };
 
 export default nextConfig;
