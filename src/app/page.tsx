@@ -3,7 +3,6 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import OurCustomers from "./components/OurCustomers";
 import WhyChooseUs from "./components/WhyChooseUs";
-import LinenTypes from "./components/LinenTypes";
 import Flow from "./components/Flow";
 import Testimonials from "./components/Testimonials";
 import { Sustainability } from "./components/Sustainability";
@@ -113,7 +112,6 @@ export default function Home() {
           <Hero />
           <OurCustomers />
           <WhyChooseUs />
-          <LinenTypes />
           <Flow />
           <Sustainability />
           <Testimonials />

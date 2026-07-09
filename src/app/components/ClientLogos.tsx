@@ -8,7 +8,6 @@ export const ClientLogos = () => {
     { src: "/logos/bunda-logo.webp", alt: "RSU Bunda" },
     { src: "/logos/columbia-asia.webp", alt: "Columbia Asia" },
     { src: "/logos/grand-family.webp", alt: "RSIA Grand Family" },
-    { src: "/logos/tugu-ibu.webp", alt: "RS Tugu Ibu" },
     { src: "/logos/permata-cibubur.webp", alt: "RSIA Permata Cibubur" },
     { src: "/logos/logo-alora-new.webp", alt: "Alora" },
   ];
