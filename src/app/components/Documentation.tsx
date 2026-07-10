@@ -181,15 +181,17 @@ export default function Documentation() {
             </svg>
           </button>
 
-          <div className="relative max-h-full max-w-5xl overflow-hidden rounded-3xl shadow-2xl">
-            <Image
-              src={facilities[lightboxIndex].image}
-              alt={facilities[lightboxIndex].title}
-              width={1200}
-              height={800}
-              className="max-h-[70vh] w-auto object-contain"
-            />
-            <div className="bg-white p-8">
+          <div className="relative max-h-full max-w-5xl w-full overflow-hidden rounded-3xl shadow-2xl flex flex-col items-center">
+            <div className="w-full flex items-center justify-center bg-slate-100">
+              <Image
+                src={facilities[lightboxIndex].image}
+                alt={facilities[lightboxIndex].title}
+                width={1200}
+                height={800}
+                className="max-h-[60vh] w-auto object-contain"
+              />
+            </div>
+            <div className="bg-white p-8 w-full">
               <h3 className="text-2xl font-bold text-slate-900">{facilities[lightboxIndex].title}</h3>
               <p className="mt-2 text-slate-500 leading-relaxed">{facilities[lightboxIndex].desc}</p>
             </div>

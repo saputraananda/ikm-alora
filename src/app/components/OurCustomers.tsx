@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import CountUp from "./ReactBits/CountUp";
 import ShineBorder from "./ReactBits/ShineBorder";
 import LogoLoop from "./ReactBits/LogoLoop";
 
-/* ── All 15 hospital photos ── */
+/* ── All 14 hospital photos ── */
 const hospitals = [
   { src: "/logo-client/foto-rs/bunda-margonda.png",    label: "RSU Bunda Margonda" },
   { src: "/logo-client/foto-rs/rsu-bunda-jakarta.png", label: "RSU Bunda Jakarta" },
@@ -23,26 +23,42 @@ const hospitals = [
   { src: "/logo-client/foto-rs/eka-hijau.png",         label: "Eka Hospital Hijau" },
   { src: "/logo-client/foto-rs/colombia-hospital.png", label: "RS Columbia Asia" },
   { src: "/logo-client/foto-rs/grand-family-pik.png",  label: "Grand Family PIK" },
-  { src: "/logo-client/foto-rs/rs-tugu-ibu.png",       label: "RS Tugu Ibu" },
 ];
 
-/* Spread positions for the fan-out on hover — 3 columns × 5 rows grid */
-const spreadPositions = [
-  { x: -220, y: -150, r: -8  },
-  { x:  -80, y: -160, r:  0  },
-  { x:   60, y: -150, r:  6  },
-  { x:  200, y: -145, r: 10  },
-  { x: -240, y:  -30, r: -10 },
-  { x:  -80, y:  -40, r: -3  },
-  { x:   60, y:  -40, r:  3  },
-  { x:  200, y:  -35, r:  9  },
-  { x: -220, y:   80, r: -7  },
-  { x:  -80, y:   80, r:  2  },
-  { x:   60, y:   80, r: -2  },
-  { x:  200, y:   80, r:  8  },
-  { x: -160, y:  190, r: -5  },
-  { x:    0, y:  195, r:  0  },
-  { x:  150, y:  190, r:  6  },
+/* Spread positions for the fan-out on hover — 4 columns × 4 rows grid (desktop) */
+const spreadPositionsDesktop = [
+  { x: -210, y: -140, r: -6  },
+  { x:  -70, y: -150, r: -2  },
+  { x:   70, y: -145, r:  3  },
+  { x:  210, y: -140, r:  7  },
+  { x: -210, y:  -30, r: -5  },
+  { x:  -70, y:  -35, r: -1  },
+  { x:   70, y:  -30, r:  2  },
+  { x:  210, y:  -35, r:  6  },
+  { x: -210, y:   80, r: -4  },
+  { x:  -70, y:   80, r:  1  },
+  { x:   70, y:   85, r: -1  },
+  { x:  210, y:   80, r:  5  },
+  { x: -140, y:  190, r: -3  },
+  { x:  140, y:  190, r:  4  },
+];
+
+/* Spread positions for mobile — more compact */
+const spreadPositionsMobile = [
+  { x: -140, y: -100, r: -5  },
+  { x:  -50, y: -105, r: -1  },
+  { x:   50, y: -100, r:  2  },
+  { x:  140, y: -95, r:  5  },
+  { x: -140, y:  -20, r: -4  },
+  { x:  -50, y:  -25, r: -1  },
+  { x:   50, y:  -20, r:  1  },
+  { x:  140, y:  -25, r:  4  },
+  { x: -140, y:   55, r: -3  },
+  { x:  -50, y:   55, r:  0  },
+  { x:   50, y:   55, r:  0  },
+  { x:  140, y:   55, r:  3  },
+  { x:  -95, y:  130, r: -2  },
+  { x:   95, y:  130, r:  2  },
 ];
 
 /* ── Individual image card that fans out ── */
@@ -51,13 +67,19 @@ function HospitalCard({
   label,
   index,
   isOpen,
+  isMobile,
 }: {
   src: string;
   label: string;
   index: number;
   isOpen: boolean;
+  isMobile: boolean;
 }) {
-  const pos = spreadPositions[index] ?? { x: 0, y: 0, r: 0 };
+  const positions = isMobile ? spreadPositionsMobile : spreadPositionsDesktop;
+  const pos = positions[index] ?? { x: 0, y: 0, r: 0 };
+  const cardWidth = isMobile ? 90 : 120;
+  const cardHeight = isMobile ? 60 : 80;
+  
   /* stacked state: slight random offset + rotation so they look like a real deck */
   const stackX = (index % 3) * 1.5 - 2;
   const stackY = index * 0.8;
@@ -65,20 +87,23 @@ function HospitalCard({
 
   return (
     <motion.div
-      className="absolute left-1/2 top-1/2 w-[120px] cursor-pointer overflow-hidden rounded-2xl border-[3px] border-white bg-white shadow-lg"
-      style={{ zIndex: isOpen ? index + 1 : hospitals.length - index }}
+      className="absolute left-1/2 top-1/2 cursor-pointer overflow-hidden rounded-2xl border-[3px] border-white bg-white shadow-lg"
+      style={{ 
+        zIndex: isOpen ? index + 1 : hospitals.length - index,
+        width: cardWidth,
+      }}
       animate={
         isOpen
           ? {
-              x: pos.x - 60,   // -60 = half card width to center
-              y: pos.y - 70,   // -70 = half card height
+              x: pos.x - (cardWidth / 2),   // half card width to center
+              y: pos.y - (cardHeight / 2),  // half card height
               rotate: pos.r,
               scale: 1,
               opacity: 1,
             }
           : {
-              x: stackX - 60,
-              y: stackY - 70,
+              x: stackX - (cardWidth / 2),
+              y: stackY - (cardHeight / 2),
               rotate: stackR,
               scale: 1 - index * 0.008,
               opacity: index < 8 ? 1 : 0,
@@ -92,13 +117,13 @@ function HospitalCard({
       }}
       whileHover={isOpen ? { scale: 1.08, zIndex: 50 } : {}}
     >
-      <div className="relative h-[80px] w-full bg-slate-100">
+      <div className="relative w-full bg-slate-100" style={{ height: cardHeight }}>
         <Image
           src={src}
           alt={label}
           fill
           className="object-cover object-center"
-          sizes="120px"
+          sizes={`${cardWidth}px`}
         />
       </div>
       <AnimatePresence>
@@ -123,13 +148,31 @@ function HospitalCard({
 /* ── The folder / badge container ── */
 function ImagesBadge() {
   const [open, setOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check for mobile on mount and resize
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const containerWidth = isMobile ? 360 : 480;
+  const containerHeight = isMobile ? 380 : 500;
 
   return (
     <div
-      className="relative"
-      /* The outer wrapper needs enough room for the spread */
-      style={{ width: 480, height: 500 }}
+      className="relative w-full flex justify-center"
     >
+      <div
+        className="relative"
+        style={{ 
+          width: containerWidth, 
+          height: containerHeight,
+          maxWidth: "100%"
+        }}
+      >
       {/* Hospital image cards */}
       {hospitals.map((h, i) => (
         <HospitalCard
@@ -138,6 +181,7 @@ function ImagesBadge() {
           label={h.label}
           index={i}
           isOpen={open}
+          isMobile={isMobile}
         />
       ))}
 
@@ -183,13 +227,13 @@ function ImagesBadge() {
                 </div>
               ))}
               <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-primary/10 text-[9px] font-bold text-primary shadow-sm">
-                +10
+                +9
               </div>
             </div>
 
             <p className="text-[11px] text-slate-400">Terpercaya oleh</p>
             <p className="mt-0.5 text-3xl font-bold leading-none text-primary">
-              <CountUp to={15} from={0} duration={2} />+
+              <CountUp to={14} from={0} duration={2} />+
             </p>
             <p className="mt-0.5 text-sm font-semibold text-slate-800">Rumah Sakit</p>
             <p className="mt-0.5 text-[10px] text-slate-400">di Seluruh Indonesia</p>
@@ -214,6 +258,7 @@ function ImagesBadge() {
           </div>
         </ShineBorder>
       </motion.button>
+      </div>
     </div>
   );
 }
@@ -221,11 +266,10 @@ function ImagesBadge() {
 
 
 const logoClients = [
-  { src: "/logos/eka-hospital.webp", alt: "RS Eka Hospital" },
+  { src: "/logos/eka-hospital.webp", alt: "Eka Hospital Cibubur" },
   { src: "/logos/bunda-logo.webp", alt: "RSU Bunda" },
   { src: "/logos/columbia-asia.webp", alt: "Columbia Asia" },
   { src: "/logos/grand-family.webp", alt: "RSIA Grand Family" },
-  { src: "/logos/tugu-ibu.webp", alt: "RS Tugu Ibu" },
   { src: "/logos/permata-cibubur.webp", alt: "RSIA Permata Cibubur" },
 ];
 
@@ -248,16 +292,15 @@ export default function OurCustomers() {
           {/* ── Left: copy ── */}
           <div className="max-w-2xl">
             <motion.div
-              initial={{ opacity: 0, x: -14 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.38 }}
-              className="mb-7 flex items-center gap-2"
+              className="mb-7"
             >
-              <svg className="h-4 w-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <span className="text-base font-semibold uppercase tracking-wider text-primary">Kemitraan Strategis</span>
+              <span className="inline-block rounded-full border border-primary/25 bg-primary-light px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-primary">
+                Kemitraan Strategis
+              </span>
             </motion.div>
 
             <motion.h2

@@ -139,8 +139,7 @@ export default function Testimonials() {
                   {active.initials}
                 </div>
                 <div className="flex-1">
-                  <p className="font-semibold text-slate-900">{active.name}</p>
-                  <p className="text-sm text-slate-500">{active.role} · {active.hospital}</p>
+                  <p className="font-semibold text-slate-900">{active.hospital}</p>
                 </div>
                 {/* Stars */}
                 <div className="hidden items-center gap-0.5 sm:flex">
@@ -178,7 +177,7 @@ export default function Testimonials() {
           <div className="flex flex-col gap-3">
             {items.map((t, index) => (
               <motion.button
-                key={t.name}
+                key={t.hospital}
                 type="button"
                 onClick={() => setActiveIndex(index)}
                 initial={{ opacity: 0, x: 18 }}
@@ -206,9 +205,8 @@ export default function Testimonials() {
                     <p className={`text-sm font-semibold leading-tight transition-colors ${
                       activeIndex === index ? "text-slate-900" : "text-slate-600"
                     }`}>
-                      {t.name}
+                      {t.hospital}
                     </p>
-                    <p className="mt-0.5 truncate text-[11px] text-slate-400">{t.role} · {t.hospital}</p>
                   </div>
                   {/* Active indicator */}
                   <svg

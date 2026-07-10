@@ -158,7 +158,7 @@ export default function CTA() {
             <motion.h2
               id="cta-heading"
               style={{ y: headingY }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.05] tracking-tight mb-6"
+              className="text-2xl sm:text-4xl lg:text-6xl font-bold text-slate-900 leading-[1.05] tracking-tight mb-6"
             >
               <motion.span
                 className="block"

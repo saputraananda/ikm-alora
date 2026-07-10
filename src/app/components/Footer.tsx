@@ -6,7 +6,7 @@ export default function Footer() {
       id="contact"
       className="bg-primary-dark text-white"
     >
-      <div className="mx-auto grid max-w-7xl gap-48 px-4 py-14 sm:px-6 lg:grid-cols-3 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-14 sm:px-6 lg:grid-cols-3 lg:gap-24 lg:px-8">
         <div>
           <Image
             src={logo}

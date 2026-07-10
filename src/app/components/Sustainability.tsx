@@ -57,12 +57,24 @@ const Bubble = ({ x, delay, size = 2 }: { x: number; delay: number; size?: numbe
 export const Sustainability: FC = () => {
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
   const rafPendingRef = useRef(false);
   const pendingPosRef = useRef({ x: 0, y: 0 });
 
+  // Helper to update cursor position from mouse event
+  const updateCursorPos = useCallback((e: React.MouseEvent) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const newPos = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    pendingPosRef.current = newPos;
+    // Update state immediately for first hover
+    setCursorPos(newPos);
+  }, []);
+
   // Throttle mousemove updates to once per animation frame to prevent excessive re-renders
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
     pendingPosRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     if (!rafPendingRef.current) {
       rafPendingRef.current = true;
@@ -96,6 +108,7 @@ export const Sustainability: FC = () => {
         {/* Diagram - directly on bg, no frame */}
         <AnimatedContent delay={0.2} distance={30} direction="vertical">
           <div
+            ref={containerRef}
             className="relative cursor-default"
             onMouseMove={handleMouseMove}
             onMouseLeave={() => setHoveredStep(null)}
@@ -207,7 +220,10 @@ export const Sustainability: FC = () => {
                 {/* === TANK 1 - Anaerobik === */}
                 <g
                   className="cursor-pointer transition-all"
-                  onMouseEnter={() => setHoveredStep(0)}
+                  onMouseEnter={(e) => {
+                    updateCursorPos(e);
+                    setHoveredStep(0);
+                  }}
                   onMouseLeave={() => setHoveredStep(null)}
                 >
                   <rect x="130" y="180" width="110" height="220" rx="2" fill="white" stroke={hoveredStep === 0 ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={hoveredStep === 0 ? 1 : 0.7} strokeWidth={hoveredStep === 0 ? 2.5 : 2} />
@@ -240,7 +256,7 @@ export const Sustainability: FC = () => {
                 <line x1="240" y1="290" x2="275" y2="290" stroke={(hoveredStep === 0 || hoveredStep === 1) ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={(hoveredStep === 0 || hoveredStep === 1) ? 0.9 : 0.4} strokeWidth="2" markerEnd="url(#arr)" />
 
                 {/* === TANK 2 - Netralisasi === */}
-                <g className="cursor-pointer" onMouseEnter={() => setHoveredStep(1)} onMouseLeave={() => setHoveredStep(null)}>
+                <g className="cursor-pointer" onMouseEnter={(e) => { updateCursorPos(e); setHoveredStep(1); }} onMouseLeave={() => setHoveredStep(null)}>
                   <rect x="280" y="180" width="110" height="220" rx="2" fill="white" stroke={hoveredStep === 1 ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={hoveredStep === 1 ? 1 : 0.7} strokeWidth={hoveredStep === 1 ? 2.5 : 2} />
                   <rect x="285" y="245" width="100" height="150" fill={hoveredStep === 1 ? "url(#waterHover)" : "url(#waterGrad)"} />
                   <rect x="285" y="245" width="100" height="150" fill={hoveredStep === 1 ? "url(#dotPatHover)" : "url(#dotPat)"} />
@@ -264,7 +280,7 @@ export const Sustainability: FC = () => {
                 <line x1="390" y1="290" x2="425" y2="290" stroke={(hoveredStep === 1 || hoveredStep === 2) ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={(hoveredStep === 1 || hoveredStep === 2) ? 0.9 : 0.4} strokeWidth="2" markerEnd="url(#arr)" />
 
                 {/* === TANK 3 - Equalisasi === */}
-                <g className="cursor-pointer" onMouseEnter={() => setHoveredStep(2)} onMouseLeave={() => setHoveredStep(null)}>
+                <g className="cursor-pointer" onMouseEnter={(e) => { updateCursorPos(e); setHoveredStep(2); }} onMouseLeave={() => setHoveredStep(null)}>
                   <rect x="430" y="180" width="110" height="220" rx="2" fill="white" stroke={hoveredStep === 2 ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={hoveredStep === 2 ? 1 : 0.7} strokeWidth={hoveredStep === 2 ? 2.5 : 2} />
                   <rect x="435" y="245" width="100" height="150" fill={hoveredStep === 2 ? "url(#waterHover)" : "url(#waterGrad)"} />
                   <rect x="435" y="245" width="100" height="150" fill={hoveredStep === 2 ? "url(#dotPatHover)" : "url(#dotPat)"} />
@@ -300,7 +316,7 @@ export const Sustainability: FC = () => {
                 <line x1="540" y1="290" x2="575" y2="290" stroke={(hoveredStep === 2 || hoveredStep === 3) ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={(hoveredStep === 2 || hoveredStep === 3) ? 0.9 : 0.4} strokeWidth="2" markerEnd="url(#arr)" />
 
                 {/* === TANK 4 - Aerobik Biofilter === */}
-                <g className="cursor-pointer" onMouseEnter={() => setHoveredStep(3)} onMouseLeave={() => setHoveredStep(null)}>
+                <g className="cursor-pointer" onMouseEnter={(e) => { updateCursorPos(e); setHoveredStep(3); }} onMouseLeave={() => setHoveredStep(null)}>
                   <rect x="580" y="180" width="150" height="220" rx="2" fill="white" stroke={hoveredStep === 3 ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={hoveredStep === 3 ? 1 : 0.7} strokeWidth={hoveredStep === 3 ? 2.5 : 2} />
                   <rect x="585" y="245" width="140" height="150" fill={hoveredStep === 3 ? "url(#waterHover)" : "url(#waterGrad)"} />
                   {/* Biofilter mesh block */}
@@ -341,7 +357,7 @@ export const Sustainability: FC = () => {
                 <line x1="730" y1="290" x2="765" y2="290" stroke={(hoveredStep === 3 || hoveredStep === 4) ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={(hoveredStep === 3 || hoveredStep === 4) ? 0.9 : 0.4} strokeWidth="2" markerEnd="url(#arr)" />
 
                 {/* === TANK 5 - Pengendapan (V cone) === */}
-                <g className="cursor-pointer" onMouseEnter={() => setHoveredStep(4)} onMouseLeave={() => setHoveredStep(null)}>
+                <g className="cursor-pointer" onMouseEnter={(e) => { updateCursorPos(e); setHoveredStep(4); }} onMouseLeave={() => setHoveredStep(null)}>
                   <rect x="770" y="180" width="110" height="150" rx="2" fill="white" stroke={hoveredStep === 4 ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={hoveredStep === 4 ? 1 : 0.7} strokeWidth={hoveredStep === 4 ? 2.5 : 2} />
                   <rect x="775" y="245" width="100" height="85" fill={hoveredStep === 4 ? "url(#waterHover)" : "url(#waterGrad)"} />
                   <polygon points="770,330 825,398 880,330" fill="white" stroke={hoveredStep === 4 ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={hoveredStep === 4 ? 1 : 0.7} strokeWidth={hoveredStep === 4 ? 2.5 : 2} />
@@ -366,7 +382,7 @@ export const Sustainability: FC = () => {
                 <line x1="880" y1="290" x2="915" y2="290" stroke={(hoveredStep === 4 || hoveredStep === 5) ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={(hoveredStep === 4 || hoveredStep === 5) ? 0.9 : 0.4} strokeWidth="2" markerEnd="url(#arr)" />
 
                 {/* === TANK 6 - Desinfeksi === */}
-                <g className="cursor-pointer" onMouseEnter={() => setHoveredStep(5)} onMouseLeave={() => setHoveredStep(null)}>
+                <g className="cursor-pointer" onMouseEnter={(e) => { updateCursorPos(e); setHoveredStep(5); }} onMouseLeave={() => setHoveredStep(null)}>
                   <rect x="920" y="180" width="105" height="220" rx="2" fill="white" stroke={hoveredStep === 5 ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={hoveredStep === 5 ? 1 : 0.7} strokeWidth={hoveredStep === 5 ? 2.5 : 2} />
                   <rect x="925" y="245" width="95" height="150" fill={hoveredStep === 5 ? "url(#waterHover)" : "url(#waterGrad)"} />
                   <rect x="925" y="245" width="95" height="150" fill={hoveredStep === 5 ? "url(#dotPatHover)" : "url(#dotPat)"} />
@@ -390,7 +406,7 @@ export const Sustainability: FC = () => {
                 <line x1="1025" y1="290" x2="1060" y2="290" stroke={(hoveredStep === 5 || hoveredStep === 6) ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={(hoveredStep === 5 || hoveredStep === 6) ? 0.9 : 0.4} strokeWidth="2" markerEnd="url(#arr)" />
 
                 {/* === TANK 7 - Efluen === */}
-                <g className="cursor-pointer" onMouseEnter={() => setHoveredStep(6)} onMouseLeave={() => setHoveredStep(null)}>
+                <g className="cursor-pointer" onMouseEnter={(e) => { updateCursorPos(e); setHoveredStep(6); }} onMouseLeave={() => setHoveredStep(null)}>
                   <rect x="1065" y="180" width="90" height="220" rx="2" fill="white" stroke={hoveredStep === 6 ? "#0e7c8a" : "#0e7c8a"} strokeOpacity={hoveredStep === 6 ? 1 : 0.7} strokeWidth={hoveredStep === 6 ? 2.5 : 2} />
                   <rect x="1070" y="245" width="80" height="150" fill={hoveredStep === 6 ? "url(#waterHover)" : "url(#waterGrad)"} />
                   <motion.path

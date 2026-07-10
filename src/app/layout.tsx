@@ -92,7 +92,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#0e7c8a" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className="min-h-full flex flex-col bg-white text-slate-900">
+      <body className="min-h-full flex flex-col bg-white text-slate-900 overflow-x-hidden">
         <ClickSpark />
         {children}
       </body>

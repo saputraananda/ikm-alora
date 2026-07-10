@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
+import { useState, useEffect, useRef } from "react";
 
 const reasons = [
   {
@@ -52,6 +53,23 @@ const reasons = [
 ];
 
 export default function WhyChooseUs() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Start automatic rotation
+  useEffect(() => {
+    if (isPaused) return;
+
+    intervalRef.current = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % reasons.length);
+    }, 2000);
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [isPaused]);
+
   return (
     <section id="why-choose-us" className="relative py-20 sm:py-28 bg-white overflow-hidden">
       <div
@@ -79,33 +97,37 @@ export default function WhyChooseUs() {
         </ScrollReveal>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {reasons.map((r, i) => (
-            <ScrollReveal key={r.title} animation="tilt-up" delay={i * 90} duration={650}>
-              <motion.article 
-                className="group flex h-full flex-col rounded-[2rem] border border-slate-100 bg-slate-50/70 p-6 shadow-sm transition-all"
-                whileHover={{
-                  y: -4,
-                  boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                  transition: { duration: 0.3 }
-                }}
-              >
-                <motion.div 
-                  className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary"
-                  whileHover={{
-                    backgroundColor: "#0e7c8a",
-                    color: "#ffffff",
-                    rotate: 10,
-                    scale: 1.1,
-                    transition: { duration: 0.3 }
+          {reasons.map((r, i) => {
+            const isActive = i === activeIndex;
+            return (
+              <ScrollReveal key={r.title} animation="tilt-up" delay={i * 90} duration={650}>
+                <motion.article
+                  className={`flex h-full flex-col rounded-[2rem] border border-slate-100 bg-slate-50/70 p-6 shadow-sm transition-all duration-300 ${isActive ? "bg-primary" : "hover:bg-primary"}`}
+                  animate={isActive ? {
+                    y: -4,
+                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                  } : {}}
+                  onMouseEnter={() => {
+                    setIsPaused(true);
+                    setActiveIndex(i);
                   }}
+                  onMouseLeave={() => setIsPaused(false)}
                 >
-                  {r.icon}
-                </motion.div>
-                <h3 className="mt-5 text-lg font-bold leading-snug text-slate-900">{r.title}</h3>
-                <p className="mt-4 text-sm leading-relaxed text-slate-500">{r.description}</p>
-              </motion.article>
-            </ScrollReveal>
-          ))}
+                  <motion.div
+                    className={`flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-300 ${isActive ? "bg-white/20 text-white" : "bg-primary/10 text-primary group-hover:bg-white/20 group-hover:text-white"}`}
+                    animate={isActive ? {
+                      rotate: 10,
+                      scale: 1.1,
+                    } : {}}
+                  >
+                    {r.icon}
+                  </motion.div>
+                  <h3 className={`mt-5 text-lg font-bold leading-tight transition-colors duration-300 ${isActive ? "text-white" : "text-slate-900 group-hover:text-white"}`}>{r.title}</h3>
+                  <p className={`mt-4 text-sm leading-relaxed transition-colors duration-300 ${isActive ? "text-white/90" : "text-slate-500 group-hover:text-white/90"}`}>{r.description}</p>
+                </motion.article>
+              </ScrollReveal>
+            );
+          })}
         </div>
       </div>
     </section>

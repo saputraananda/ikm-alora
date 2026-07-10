@@ -8,7 +8,6 @@ const navItems = [
   { label: "Beranda", href: "#beranda" },
   { label: "Kemitraan", href: "#our-customers" },
   { label: "Keunggulan", href: "#why-choose-us" },
-  { label: "Linen", href: "#linen" },
   { label: "Flow", href: "#flow" },
   { label: "Sustainability", href: "#sustainability" },
   { label: "Testimoni", href: "#testimonials" },
@@ -31,6 +30,7 @@ export default function Navbar() {
             height={56}
             className="h-12 w-auto"
             priority
+            unoptimized
           />
         </Link>
 
