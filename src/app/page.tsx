@@ -60,6 +60,26 @@ export default function Home() {
             name: "Cibubur"
           },
           {
+            "@type": "City",
+            name: "Jakarta"
+          },
+          {
+            "@type": "City",
+            name: "Bekasi"
+          },
+          {
+            "@type": "City",
+            name: "Bogor"
+          },
+          {
+            "@type": "City",
+            name: "Depok"
+          },
+          {
+            "@type": "City",
+            name: "Tangerang"
+          },
+          {
             "@type": "State",
             name: "Jabodetabek"
           }
@@ -85,7 +105,21 @@ export default function Home() {
           "Laundry Healthcare",
           "Laundry Hospitality",
           "Linen Rental",
-          "Sewa Linen"
+          "Sewa Linen",
+          "Laundry Medis",
+          "Laundry Industrial",
+          "Laundry Komersial",
+          "Laundry Klinik",
+          "Laundry Puskesmas",
+          "Laundry Laboratorium",
+          "Outsourcing Laundry Rumah Sakit",
+          "Pengelolaan Linen Rumah Sakit",
+          "Sterilisasi Linen Rumah Sakit",
+          "Laundry Linen Infeksius",
+          "Laundry Linen Non Infeksius",
+          "Laundry Hotel",
+          "Laundry Apartemen",
+          "Laundry Perusahaan"
         ]
       },
       {
