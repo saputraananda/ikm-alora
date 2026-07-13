@@ -102,7 +102,7 @@ export default function WhyChooseUs() {
             return (
               <ScrollReveal key={r.title} animation="tilt-up" delay={i * 90} duration={650}>
                 <motion.article
-                  className={`flex h-full flex-col rounded-[2rem] border border-slate-100 bg-slate-50/70 p-6 shadow-sm transition-all duration-300 ${isActive ? "bg-primary" : "hover:bg-primary"}`}
+                  className={`group flex h-full flex-col rounded-[2rem] border border-slate-100 p-6 shadow-sm transition-all duration-300 ${isActive ? "bg-primary" : "bg-slate-50/70 hover:bg-primary"}`}
                   animate={isActive ? {
                     y: -4,
                     boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
