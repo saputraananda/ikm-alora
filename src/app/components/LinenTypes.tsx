@@ -20,8 +20,8 @@ export default function LinenTypes() {
 
             <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
               Kami memproses linen dengan perlakuan khusus sesuai tingkat
-              kontaminasi. Gunakan slider di bawah untuk melihat perbedaan
-              penanganan kami.
+              kontaminasi, Gunakan slider di bawah untuk melihat perbedaan
+              penanganan kami
             </p>
           </div>
         </AnimatedContent>
