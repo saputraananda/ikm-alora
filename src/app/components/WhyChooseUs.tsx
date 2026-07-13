@@ -40,7 +40,7 @@ const reasons = [
   {
     title: "Compliance & Logistics",
     description:
-      "Memenuhi standar kesehatan dengan layanan antar-jemput fleksibel dan tepat waktu.",
+      "Memenuhi standar kesehatan dengan layanan antar jemput yang fleksibel dan tepat waktu.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-6 w-6">
         <rect x="1" y="3" width="15" height="13" rx="1" />
