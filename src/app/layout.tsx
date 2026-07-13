@@ -137,6 +137,16 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/logo/logo-ikm-symbol-96.png", sizes: "96x96", type: "image/png" },
+      { url: "/logo/logo-ikm-symbol-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [
+      { url: "/logo/logo-ikm-symbol-192.png", sizes: "192x192", type: "image/png" },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -150,7 +160,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#0e7c8a" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
