@@ -23,7 +23,7 @@ export default function Home() {
         logo: "https://ikmlaundry.com/logo/logo-ikm.png",
         contactPoint: {
           "@type": "ContactPoint",
-          telephone: "+628118871101",
+          telephone: "+6285111327554",
           contactType: "customer service",
           availableLanguage: ["Indonesian", "English"],
           email: "support@ikmlaundry.com"
@@ -39,7 +39,7 @@ export default function Home() {
         name: "IKM Laundry",
         image: "https://ikmlaundry.com/logo/logo-ikm.png",
         url: "https://ikmlaundry.com",
-        telephone: "+628118871101",
+        telephone: "+6285111327554",
         priceRange: "$$",
         address: {
           "@type": "PostalAddress",
