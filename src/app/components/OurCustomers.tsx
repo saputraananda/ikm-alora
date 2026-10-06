@@ -1,373 +1,271 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import CountUp from "./ReactBits/CountUp";
-import ShineBorder from "./ReactBits/ShineBorder";
 import LogoLoop from "./ReactBits/LogoLoop";
 
-/* ── All 14 hospital photos ── */
-const hospitals = [
-  { src: "/logo-client/foto-rs/bunda-margonda.png",    label: "RSU Bunda Margonda" },
-  { src: "/logo-client/foto-rs/rsu-bunda-jakarta.png", label: "RSU Bunda Jakarta" },
-  { src: "/logo-client/foto-rs/rsia-bunda-jakarta.png",label: "RSIA Bunda Jakarta" },
-  { src: "/logo-client/foto-rs/rs-permata-cibubur.png",label: "RS Permata Cibubur" },
-  { src: "/logo-client/foto-rs/eka-bsd.png",           label: "Eka Hospital BSD" },
-  { src: "/logo-client/foto-rs/eka-bekasi.png",        label: "Eka Hospital Bekasi" },
-  { src: "/logo-client/foto-rs/eka-cibubur.png",       label: "Eka Hospital Cibubur" },
-  { src: "/logo-client/foto-rs/eka-cilegon.png",       label: "Eka Hospital Cilegon" },
-  { src: "/logo-client/foto-rs/eka-depok.png",         label: "Eka Hospital Depok" },
-  { src: "/logo-client/foto-rs/eka-family-fluit.png",  label: "Eka Family Fluit" },
-  { src: "/logo-client/foto-rs/eka-haryono.png",       label: "Eka Hospital Haryono" },
-  { src: "/logo-client/foto-rs/eka-hijau.png",         label: "Eka Hospital Hijau" },
-  { src: "/logo-client/foto-rs/colombia-hospital.png", label: "RS Columbia Asia" },
-  { src: "/logo-client/foto-rs/grand-family-pik.png",  label: "Grand Family PIK" },
-];
-
-/* Spread positions for the fan-out on hover — 4 columns × 4 rows grid (desktop) */
-const spreadPositionsDesktop = [
-  { x: -210, y: -140, r: -6  },
-  { x:  -70, y: -150, r: -2  },
-  { x:   70, y: -145, r:  3  },
-  { x:  210, y: -140, r:  7  },
-  { x: -210, y:  -30, r: -5  },
-  { x:  -70, y:  -35, r: -1  },
-  { x:   70, y:  -30, r:  2  },
-  { x:  210, y:  -35, r:  6  },
-  { x: -210, y:   80, r: -4  },
-  { x:  -70, y:   80, r:  1  },
-  { x:   70, y:   85, r: -1  },
-  { x:  210, y:   80, r:  5  },
-  { x: -140, y:  190, r: -3  },
-  { x:  140, y:  190, r:  4  },
-];
-
-/* Spread positions for mobile — more compact */
-const spreadPositionsMobile = [
-  { x: -140, y: -100, r: -5  },
-  { x:  -50, y: -105, r: -1  },
-  { x:   50, y: -100, r:  2  },
-  { x:  140, y: -95, r:  5  },
-  { x: -140, y:  -20, r: -4  },
-  { x:  -50, y:  -25, r: -1  },
-  { x:   50, y:  -20, r:  1  },
-  { x:  140, y:  -25, r:  4  },
-  { x: -140, y:   55, r: -3  },
-  { x:  -50, y:   55, r:  0  },
-  { x:   50, y:   55, r:  0  },
-  { x:  140, y:   55, r:  3  },
-  { x:  -95, y:  130, r: -2  },
-  { x:   95, y:  130, r:  2  },
-];
-
-/* ── Individual image card that fans out ── */
-function HospitalCard({
-  src,
-  label,
-  index,
-  isOpen,
-  isMobile,
-}: {
+export interface HospitalItem {
   src: string;
-  label: string;
-  index: number;
-  isOpen: boolean;
-  isMobile: boolean;
-}) {
-  const positions = isMobile ? spreadPositionsMobile : spreadPositionsDesktop;
-  const pos = positions[index] ?? { x: 0, y: 0, r: 0 };
-  const cardWidth = isMobile ? 90 : 120;
-  const cardHeight = isMobile ? 60 : 80;
-  
-  /* stacked state: slight random offset + rotation so they look like a real deck */
-  const stackX = (index % 3) * 1.5 - 2;
-  const stackY = index * 0.8;
-  const stackR = ((index % 5) - 2) * 1.2;
-
-  return (
-    <motion.div
-      className="absolute left-1/2 top-1/2 cursor-pointer overflow-hidden rounded-2xl border-[3px] border-white bg-white shadow-lg"
-      style={{ 
-        zIndex: isOpen ? index + 1 : hospitals.length - index,
-        width: cardWidth,
-      }}
-      animate={
-        isOpen
-          ? {
-              x: pos.x - (cardWidth / 2),   // half card width to center
-              y: pos.y - (cardHeight / 2),  // half card height
-              rotate: pos.r,
-              scale: 1,
-              opacity: 1,
-            }
-          : {
-              x: stackX - (cardWidth / 2),
-              y: stackY - (cardHeight / 2),
-              rotate: stackR,
-              scale: 1 - index * 0.008,
-              opacity: index < 8 ? 1 : 0,
-            }
-      }
-      transition={{
-        type: "spring",
-        stiffness: 260,
-        damping: 28,
-        delay: isOpen ? index * 0.025 : (hospitals.length - index) * 0.02,
-      }}
-      whileHover={isOpen ? { scale: 1.08, zIndex: 50 } : {}}
-    >
-      <div className="relative w-full bg-slate-100" style={{ height: cardHeight }}>
-        <Image
-          src={src}
-          alt={label}
-          fill
-          className="object-cover object-center"
-          sizes={`${cardWidth}px`}
-        />
-      </div>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.18, delay: 0.1 + index * 0.015 }}
-            className="px-2.5 pb-2 pt-1.5"
-          >
-            <p className="truncate text-[10px] font-semibold leading-tight text-slate-700">
-              {label}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
+  name: string;
+  group: string;
+  city: string;
+  badge: string;
 }
 
-/* ── The folder / badge container ── */
-function ImagesBadge() {
-  const [open, setOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+/* ── All 15 hospital photos ── */
+const hospitals: HospitalItem[] = [
+  {
+    src: "/logo-client/foto-rs/bunda-margonda.png",
+    name: "RSU Bunda Margonda",
+    group: "Bunda Group",
+    city: "Depok",
+    badge: "Mitra Strategis",
+  },
+  {
+    src: "/logo-client/foto-rs/rsu-bunda-jakarta.png",
+    name: "RSU Bunda Jakarta",
+    group: "Bunda Group",
+    city: "Menteng, Jakarta",
+    badge: "Linen Steril & OK",
+  },
+  {
+    src: "/logo-client/foto-rs/rsia-bunda-jakarta.png",
+    name: "RSIA Bunda Jakarta",
+    group: "Bunda Group",
+    city: "Menteng, Jakarta",
+    badge: "Ibu & Anak",
+  },
+  {
+    src: "/logo-client/foto-rs/eka-bsd.png",
+    name: "Eka Hospital BSD",
+    group: "Eka Hospital",
+    city: "Tangerang Selatan",
+    badge: "Mitra Terpercaya",
+  },
+  {
+    src: "/logo-client/foto-rs/eka-bekasi.png",
+    name: "Eka Hospital Bekasi",
+    group: "Eka Hospital",
+    city: "Bekasi",
+    badge: "Mitra Terpercaya",
+  },
+  {
+    src: "/logo-client/foto-rs/colombia-hospital.png",
+    name: "RS Columbia Asia",
+    group: "Columbia Asia",
+    city: "Pulomas, Jakarta",
+    badge: "Standar Internasional",
+  },
+  {
+    src: "/logo-client/foto-rs/grand-family-pik.png",
+    name: "RSIA Grand Family",
+    group: "Grand Family",
+    city: "PIK, Jakarta Utara",
+    badge: "Maternity & Care",
+  },
+  {
+    src: "/logo-client/foto-rs/rs-permata-cibubur.png",
+    name: "RS Permata Cibubur",
+    group: "Permata Group",
+    city: "Cibubur",
+    badge: "Mitra Operasional",
+  },
+  {
+    src: "/logo-client/foto-rs/eka-cibubur.png",
+    name: "Eka Hospital Cibubur",
+    group: "Eka Hospital",
+    city: "Cibubur",
+    badge: "Mitra Terpercaya",
+  },
+  {
+    src: "/logo-client/foto-rs/eka-cilegon.png",
+    name: "Eka Hospital Cilegon",
+    group: "Eka Hospital",
+    city: "Cilegon, Banten",
+    badge: "Mitra Terpercaya",
+  },
+  {
+    src: "/logo-client/foto-rs/eka-depok.png",
+    name: "Eka Hospital Depok",
+    group: "Eka Hospital",
+    city: "Depok",
+    badge: "Mitra Terpercaya",
+  },
+  {
+    src: "/logo-client/foto-rs/eka-family-fluit.png",
+    name: "Eka Hospital Pluit",
+    group: "Eka Hospital",
+    city: "Pluit, Jakarta Utara",
+    badge: "Mitra Terpercaya",
+  },
+  {
+    src: "/logo-client/foto-rs/eka-haryono.png",
+    name: "Eka Hospital MT Haryono",
+    group: "Eka Hospital",
+    city: "Jakarta Timur",
+    badge: "Mitra Terpercaya",
+  },
+  {
+    src: "/logo-client/foto-rs/eka-hijau.png",
+    name: "Eka Hospital Juanda",
+    group: "Eka Hospital",
+    city: "Bogor",
+    badge: "Mitra Terpercaya",
+  },
+  {
+    src: "/logo-client/foto-rs/rs-tugu-ibu.png",
+    name: "RSU Tugu Ibu",
+    group: "Tugu Ibu",
+    city: "Depok",
+    badge: "Mitra Strategis",
+  },
+];
 
-  // Check for mobile on mount and resize
-  React.useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  const containerWidth = isMobile ? 360 : 480;
-  const containerHeight = isMobile ? 380 : 500;
-
-  return (
-    <div
-      className="relative w-full flex justify-center"
-    >
-      <div
-        className="relative"
-        style={{ 
-          width: containerWidth, 
-          height: containerHeight,
-          maxWidth: "100%"
-        }}
-      >
-      {/* Hospital image cards */}
-      {hospitals.map((h, i) => (
-        <HospitalCard
-          key={h.label}
-          src={h.src}
-          label={h.label}
-          index={i}
-          isOpen={open}
-          isMobile={isMobile}
-        />
-      ))}
-
-      {/* Folder / trigger card — sits on top of the stack */}
-      <motion.button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Tutup galeri rumah sakit" : "Buka galeri rumah sakit"}
-        className="absolute left-1/2 top-1/2 z-[60] -translate-x-1/2 -translate-y-1/2 focus:outline-none"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.97 }}
-        transition={{ type: "spring", stiffness: 380, damping: 22 }}
-      >
-        <ShineBorder
-          borderRadius={20}
-          borderWidth={2}
-          duration={8}
-          color={["#0e7c8a", "#5eead4", "#38bdf8", "#0e7c8a"]}
-          className="shadow-xl"
-        >
-          <div className="flex flex-col items-center px-7 py-5 text-center">
-            {/* Folder icon */}
-            <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/8 text-primary">
-              {open ? (
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
-                </svg>
-              ) : (
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
-                </svg>
-              )}
-            </div>
-
-            {/* Stacked mini-avatars preview */}
-            <div className="mb-3 flex -space-x-2.5">
-              {hospitals.slice(0, 5).map((h) => (
-                <div
-                  key={h.label}
-                  className="relative h-8 w-8 overflow-hidden rounded-full border-2 border-white shadow-sm"
-                >
-                  <Image src={h.src} alt={h.label} fill className="object-cover" sizes="32px" />
-                </div>
-              ))}
-              <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-primary/10 text-[9px] font-bold text-primary shadow-sm">
-                +9
-              </div>
-            </div>
-
-            <p className="text-[11px] text-slate-400">Terpercaya oleh</p>
-            <p className="mt-0.5 text-3xl font-bold leading-none text-primary">
-              <CountUp to={14} from={0} duration={2} />+
-            </p>
-            <p className="mt-0.5 text-sm font-semibold text-slate-800">Rumah Sakit</p>
-            <p className="mt-0.5 text-[10px] text-slate-400">di Seluruh Indonesia</p>
-
-            {/* Stars */}
-            <div className="mt-2.5 flex gap-0.5">
-              {[1, 2, 3, 4, 5].map((s) => (
-                <svg key={s} className="h-3 w-3 text-amber-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
-            </div>
-
-            {/* CTA hint */}
-            <motion.p
-              className="mt-3 text-[10px] font-medium text-primary/70"
-              animate={{ opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              {open ? "Klik untuk tutup" : "Klik untuk lihat semua"}
-            </motion.p>
-          </div>
-        </ShineBorder>
-      </motion.button>
-      </div>
-    </div>
-  );
-}
-
-
+// Split into 2 rows for dual opposing marquee streams
+const row1 = hospitals.slice(0, 8);
+const row2 = hospitals.slice(8);
 
 const logoClients = [
-  { src: "/logos/eka-hospital.webp", alt: "Eka Hospital Cibubur" },
+  { src: "/logos/eka-hospital.webp", alt: "Eka Hospital" },
   { src: "/logos/bunda-logo.webp", alt: "RSU Bunda" },
   { src: "/logos/columbia-asia.webp", alt: "Columbia Asia" },
   { src: "/logos/grand-family.webp", alt: "RSIA Grand Family" },
   { src: "/logos/permata-cibubur.webp", alt: "RSIA Permata Cibubur" },
 ];
 
+/* ── Organic Curved Hospital Card Component ── */
+function HospitalStreamCard({
+  hospital,
+}: {
+  hospital: HospitalItem;
+}) {
+  return (
+    <div
+      className="group relative flex-shrink-0 cursor-pointer overflow-hidden rounded-[2rem] bg-gradient-to-b from-white to-slate-50/90 p-2 shadow-md shadow-slate-200/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20 border border-slate-100 hover:border-primary/30"
+      style={{ width: "280px" }}
+    >
+      {/* Visual Image container with organic curve */}
+      <div className="relative h-48 w-full overflow-hidden rounded-[1.6rem] bg-slate-100">
+        <Image
+          src={hospital.src}
+          alt={hospital.name}
+          fill
+          className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
+          sizes="280px"
+        />
+
+        {/* Ambient top & bottom gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/15 to-transparent" />
+
+        {/* Top Group Tag */}
+        <div className="absolute left-3 top-3">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 backdrop-blur-md px-3 py-1 text-[11px] font-semibold text-slate-800 shadow-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+            {hospital.group}
+          </span>
+        </div>
+
+        {/* Bottom text overlay on image */}
+        <div className="absolute bottom-3.5 left-3.5 right-3.5 text-white">
+          <h4 className="text-sm font-bold leading-snug drop-shadow-sm group-hover:text-cyan-200 transition-colors">
+            {hospital.name}
+          </h4>
+          <div className="mt-1 flex items-center gap-1 text-[11px] text-white/80">
+            <svg
+              className="h-3 w-3 text-primary-light shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span className="truncate">{hospital.city}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function OurCustomers() {
   return (
-    <section id="our-customers" className="relative overflow-hidden bg-white py-20 sm:py-28">
-      {/* subtle background dots */}
+    <section
+      id="our-customers"
+      className="relative overflow-hidden bg-gradient-to-b from-slate-50/60 via-white to-slate-50/80 py-12 sm:py-16"
+    >
+      {/* Subtle organic decorative background elements */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        className="pointer-events-none absolute -top-40 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-primary/5 blur-3xl"
         aria-hidden="true"
-        style={{
-          backgroundImage: "radial-gradient(#0e7c8a 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-        }}
+      />
+      <div
+        className="pointer-events-none absolute top-1/2 -right-20 h-80 w-80 rounded-full bg-teal-200/20 blur-3xl"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute bottom-10 -left-20 h-80 w-80 rounded-full bg-cyan-200/20 blur-3xl"
+        aria-hidden="true"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+        {/* ── Dual Continuous Flowing Hospital Cards Stream ── */}
+        <div className="relative">
+          {/* Left & Right Smooth Edge Fade Masks */}
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-20 w-16 sm:w-32 bg-gradient-to-r from-white via-white/80 to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-20 w-16 sm:w-32 bg-gradient-to-l from-white via-white/80 to-transparent" />
 
-          {/* ── Left: copy ── */}
-          <div className="max-w-2xl">
+          {/* Row 1: Flowing Left */}
+          <div className="relative overflow-hidden py-3">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.38 }}
-              className="mb-7"
+              className="flex gap-6 items-center"
+              animate={{
+                x: ["0%", "-50%"],
+              }}
+              transition={{
+                duration: 34,
+                ease: "linear",
+                repeat: Infinity,
+              }}
+              style={{ width: "fit-content" }}
             >
-              <span className="inline-block rounded-full border border-primary/25 bg-primary-light px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-primary">
-                Kemitraan Strategis
-              </span>
+              {[...row1, ...row1].map((hospital, index) => (
+                <HospitalStreamCard key={`row1-${hospital.name}-${index}`} hospital={hospital} />
+              ))}
             </motion.div>
-
-            <motion.h2
-              className="mb-1 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.05 }}
-            >
-              Expert Laundry Solutions
-            </motion.h2>
-            <motion.h2
-              className="mb-6 text-3xl font-bold leading-tight tracking-tight text-primary sm:text-4xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              From A Trusted National Partner
-            </motion.h2>
-
-            <motion.div
-              className="mb-6 h-[3px] w-10 rounded-full bg-primary"
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              style={{ transformOrigin: "left" }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.28, ease: "easeOut" }}
-              aria-hidden="true"
-            />
-
-            <motion.p
-              className="max-w-lg text-base leading-relaxed text-slate-500 sm:text-lg"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-            >
-              Solusi layanan jasa laundry dan penyewaan linen rumah sakit yang
-              mengutamakan kualitas patient-first.
-            </motion.p>
           </div>
 
-          {/* ── Right: Aceternity-style Images Badge ── */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center justify-center overflow-visible"
-          >
-            <ImagesBadge />
-          </motion.div>
-
+          {/* Row 2: Flowing Right */}
+          <div className="relative overflow-hidden py-3 mt-2">
+            <motion.div
+              className="flex gap-6 items-center"
+              animate={{
+                x: ["-50%", "0%"],
+              }}
+              transition={{
+                duration: 36,
+                ease: "linear",
+                repeat: Infinity,
+              }}
+              style={{ width: "fit-content" }}
+            >
+              {[...row2, ...row2].map((hospital, index) => (
+                <HospitalStreamCard key={`row2-${hospital.name}-${index}`} hospital={hospital} />
+              ))}
+            </motion.div>
+          </div>
         </div>
 
-        {/* Logo Slider */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-16 sm:mt-20"
-        >
-          <LogoLoop logos={logoClients} duration={40} />
-        </motion.div>
+        {/* ── Client Hospital Group Logos Marquee ── */}
+        <div className="mt-10 sm:mt-14 pt-6 border-t border-slate-200/60">
+          <LogoLoop logos={logoClients} duration={30} />
+        </div>
+
       </div>
     </section>
   );
 }
+
+

@@ -13,7 +13,7 @@ const facilities = [
   },
   {
     id: 2,
-    image: "/dokumentasi/facilities/2-durablelux-washerextractor-noninfeksius.png",
+    image: "/dokumentasi/facilities/2-durablelux-washerextractor-noninfeksius.jpg",
     title: "Durablelux Washer Extractor",
     subtitle: "Linen Non-Infeksius",
     desc: "Mesin cuci industri berkapasitas besar dan berkecepatan tinggi untuk linen non-infeksius, memastikan pencucian bersih, merata, dan higienis."
@@ -27,14 +27,14 @@ const facilities = [
   },
   {
     id: 4,
-    image: "/dokumentasi/facilities/4-ironing-table.png",
+    image: "/dokumentasi/facilities/4-ironing-table.jpg",
     title: "Professional Ironing Table",
     subtitle: "Meja Setrika Vakum",
     desc: "Meja setrika uap profesional dengan sistem vakum hisap untuk merapikan linen dan menjaga kualitas kerapihan permukaan linen."
   },
   {
     id: 5,
-    image: "/dokumentasi/facilities/5-flatwork-ironer.png",
+    image: "/dokumentasi/facilities/5-flatwork-ironer.jpg",
     title: "Heavy-Duty Flatwork Ironer",
     subtitle: "Setrika Rol Silinder",
     desc: "Mesin setrika rol besar untuk menyetrika linen lembaran (seperti seprei/flat sheet) dalam kapasitas besar dengan cepat, rapi, dan licin."

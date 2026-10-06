@@ -10,7 +10,7 @@ const reports = [
   "Laporan Surat Pernyataan Kesanggupan Pengelolaan dan Pemantauan Lingkungan",
   "Laporan Persetujuan Teknik Pemenuhan Baku Mutu Air Limbah",
   "Laporan Rincian Teknis Penyimpanan Limbah Bahan Berbahaya dan Beracun",
-  "Laporan Pengujian Air Limbah",
+  "Laporan Pengujian Swab Linen",
   "Laporan Pengujian Linen Anak",
   "Laporan Pengujian Linen Bayi",
   "Laporan Pengujian Linen OK",
@@ -20,26 +20,27 @@ const reports = [
 
 const isoCerts = [
   {
-    id: "iso14001",
-    image: "/dokumentasi/iso_14001_new.png",
-    code: "ISO 14001:2015",
-    name: "Sistem Manajemen Lingkungan",
-    description:
-      "Sertifikasi internasional yang menjamin sistem pengelolaan lingkungan kami memenuhi standar global, termasuk pengelolaan limbah dan efisiensi energi.",
-    color: "#0e7c8a",
-    badgeColor: "bg-teal-50 text-teal-700 border-teal-200",
-  },
-  {
     id: "iso9001",
-    image: "/dokumentasi/iso_9001_new.png",
+    image: "/dokumentasi/iso_9001_2015.png",
     code: "ISO 9001:2015",
-    name: "Sistem Manajemen Mutu",
+    name: "Sistem Manajemen Mutu (Quality Management Systems)",
     description:
       "Sertifikasi internasional yang membuktikan komitmen kami terhadap kualitas layanan yang konsisten, kepuasan pelanggan, dan perbaikan berkelanjutan.",
     color: "#1e40af",
     badgeColor: "bg-blue-50 text-blue-700 border-blue-200",
   },
+  {
+    id: "iso14001",
+    image: "/dokumentasi/iso_14001_2015.png",
+    code: "ISO 14001:2015",
+    name: "Sistem Manajemen Lingkungan (Environmental Management Systems)",
+    description:
+      "Sertifikasi internasional yang menjamin sistem pengelolaan lingkungan kami memenuhi standar global, termasuk pengelolaan limbah dan efisiensi energi.",
+    color: "#0e7c8a",
+    badgeColor: "bg-teal-50 text-teal-700 border-teal-200",
+  },
 ];
+
 
 export default function Certifications() {
   return (

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import ScrollReveal from "./ScrollReveal";
 import { useState, useEffect, useRef } from "react";
 
@@ -72,17 +73,30 @@ export default function WhyChooseUs() {
 
   return (
     <section id="why-choose-us" className="relative py-20 sm:py-28 bg-white overflow-hidden">
+      {/* ── City Skyline Background Layer (100% Opacity with Smooth Top Gradient) ── */}
+      <div className="pointer-events-none absolute inset-0 z-0 select-none overflow-hidden">
+        <Image
+          src="/bg-city-building.png"
+          alt="Modern city architecture background"
+          fill
+          className="object-cover object-bottom opacity-100"
+          priority={false}
+        />
+        {/* Smooth top gradient fade reaching deeper down for a seamless blend */}
+        <div className="absolute inset-x-0 top-0 h-80 sm:h-96 lg:h-[480px] bg-gradient-to-b from-white via-white/90 via-white/40 to-transparent" />
+      </div>
+
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 right-0 h-[500px] w-[500px] rounded-full opacity-[0.045]"
+        className="pointer-events-none absolute -top-40 right-0 h-[500px] w-[500px] rounded-full opacity-[0.045] z-0"
         style={{ background: "radial-gradient(circle, #0e7c8a 0%, transparent 70%)" }}
       />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ScrollReveal animation="tilt-up" duration={700}>
           <div className="mb-14 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <span className="mb-3 inline-block rounded-full border border-primary/25 bg-primary-light px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-primary">
+              <span className="mb-3 inline-block rounded-full border border-primary/25 bg-primary-light px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-primary shadow-sm backdrop-blur-sm">
                 Keunggulan Kami
               </span>
               <h2 className="text-3xl font-extrabold leading-tight text-slate-900 sm:text-4xl">
@@ -90,7 +104,7 @@ export default function WhyChooseUs() {
                 <span className="text-primary"> Laundry Medis Kami</span>
               </h2>
             </div>
-            <p className="max-w-xs text-sm leading-relaxed text-slate-500 lg:text-right">
+            <p className="max-w-xs text-sm leading-relaxed text-slate-600 lg:text-right font-medium">
               Empat fokus utama yang membantu rumah sakit menjaga higienitas, kualitas, efisiensi, dan kepatuhan layanan.
             </p>
           </div>
@@ -102,10 +116,14 @@ export default function WhyChooseUs() {
             return (
               <ScrollReveal key={r.title} animation="tilt-up" delay={i * 90} duration={650}>
                 <motion.article
-                  className={`group flex h-full flex-col rounded-[2rem] border border-slate-100 p-6 shadow-sm transition-all duration-300 ${isActive ? "bg-primary" : "bg-slate-50/70 hover:bg-primary"}`}
+                  className={`group flex h-full flex-col rounded-[2rem] border p-6 shadow-sm backdrop-blur-md transition-all duration-300 ${
+                    isActive
+                      ? "bg-primary border-primary text-white shadow-xl shadow-primary/25"
+                      : "bg-white/80 hover:bg-primary border-slate-200/80 hover:border-primary shadow-slate-200/50"
+                  }`}
                   animate={isActive ? {
                     y: -4,
-                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                    boxShadow: "0 20px 25px -5px rgba(14, 124, 138, 0.25), 0 8px 10px -6px rgba(14, 124, 138, 0.2)",
                   } : {}}
                   onMouseEnter={() => {
                     setIsPaused(true);
@@ -123,7 +141,7 @@ export default function WhyChooseUs() {
                     {r.icon}
                   </motion.div>
                   <h3 className={`mt-5 text-lg font-bold leading-tight transition-colors duration-300 ${isActive ? "text-white" : "text-slate-900 group-hover:text-white"}`}>{r.title}</h3>
-                  <p className={`mt-4 text-sm leading-relaxed transition-colors duration-300 ${isActive ? "text-white/90" : "text-slate-500 group-hover:text-white/90"}`}>{r.description}</p>
+                  <p className={`mt-4 text-sm leading-relaxed transition-colors duration-300 ${isActive ? "text-white/90" : "text-slate-600 group-hover:text-white/90"}`}>{r.description}</p>
                 </motion.article>
               </ScrollReveal>
             );
@@ -133,3 +151,4 @@ export default function WhyChooseUs() {
     </section>
   );
 }
+
