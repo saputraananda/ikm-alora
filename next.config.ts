@@ -25,9 +25,6 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   trailingSlash: false,
   skipTrailingSlashRedirect: true,
-  experimental: {
-    optimizeCss: true,
-  },
 };
 
 export default nextConfig;
