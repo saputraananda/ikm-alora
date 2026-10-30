@@ -3,7 +3,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import LogoLoop from "./ReactBits/LogoLoop";
 
 export interface HospitalItem {
   src: string;
@@ -126,13 +125,15 @@ const hospitals: HospitalItem[] = [
 const row1 = hospitals.slice(0, 8);
 const row2 = hospitals.slice(8);
 
-const logoClients = [
-  { src: "/logos/eka-hospital.webp", alt: "Eka Hospital" },
-  { src: "/logos/bunda-logo.webp", alt: "RSU Bunda" },
-  { src: "/logos/columbia-asia.webp", alt: "Columbia Asia" },
-  { src: "/logos/grand-family.webp", alt: "RSIA Grand Family" },
-  { src: "/logos/permata-cibubur.webp", alt: "RSIA Permata Cibubur" },
-];
+// Map each hospital group to its official logo
+const groupLogos: Record<string, string> = {
+  "Bunda Group": "/logos/bunda-logo.webp",
+  "Eka Hospital": "/logos/eka-hospital.webp",
+  "Columbia Asia": "/logos/columbia-asia.webp",
+  "Grand Family": "/logos/grand-family.webp",
+  "Permata Group": "/logos/permata-cibubur.webp",
+  "Tugu Ibu": "/logos/tugu-ibu.webp",
+};
 
 /* ── Organic Curved Hospital Card Component ── */
 function HospitalStreamCard({
@@ -158,12 +159,23 @@ function HospitalStreamCard({
         {/* Ambient top & bottom gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/15 to-transparent" />
 
-        {/* Top Group Tag */}
-        <div className="absolute left-3 top-3">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 backdrop-blur-md px-3 py-1 text-[11px] font-semibold text-slate-800 shadow-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-            {hospital.group}
-          </span>
+        {/* Top Hospital Logo Badge */}
+        <div className="absolute left-3 top-3 z-10">
+          <div className="inline-flex items-center justify-center h-8 px-2.5 rounded-full bg-white/95 backdrop-blur-md shadow-md shadow-slate-900/10 border border-white/90">
+            {groupLogos[hospital.group] ? (
+              <Image
+                src={groupLogos[hospital.group]}
+                alt={hospital.group}
+                width={80}
+                height={20}
+                className="h-4.5 max-h-5 w-auto max-w-[85px] object-contain"
+              />
+            ) : (
+              <span className="text-[11px] font-semibold text-slate-800">
+                {hospital.group}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Bottom text overlay on image */}
@@ -256,11 +268,6 @@ export default function OurCustomers() {
               ))}
             </motion.div>
           </div>
-        </div>
-
-        {/* ── Client Hospital Group Logos Marquee ── */}
-        <div className="mt-10 sm:mt-14 pt-6 border-t border-slate-200/60">
-          <LogoLoop logos={logoClients} duration={30} />
         </div>
 
       </div>
