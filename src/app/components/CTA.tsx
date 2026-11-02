@@ -119,8 +119,10 @@ export default function CTA() {
                   key={deg}
                   className="absolute w-1.5 h-1.5 rounded-full bg-primary/30"
                   style={{
-                    top: `calc(50% + ${Math.sin((deg * Math.PI) / 180) * 112}px - 3px)`,
-                    left: `calc(50% + ${Math.cos((deg * Math.PI) / 180) * 112}px - 3px)`,
+                    top: "50%",
+                    left: "50%",
+                    marginTop: Math.round(Math.sin((deg * Math.PI) / 180) * 112) - 3,
+                    marginLeft: Math.round(Math.cos((deg * Math.PI) / 180) * 112) - 3,
                   }}
                   initial={{ scale: 0, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}

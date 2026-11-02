@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import ScrollReveal from "./ScrollReveal";
 import { useState, useEffect, useRef } from "react";
 
@@ -73,17 +72,72 @@ export default function WhyChooseUs() {
 
   return (
     <section id="why-choose-us" className="relative py-20 sm:py-28 bg-white overflow-hidden">
-      {/* ── City Skyline Background Layer (100% Opacity with Smooth Top Gradient) ── */}
-      <div className="pointer-events-none absolute inset-0 z-0 select-none overflow-hidden">
-        <Image
-          src="/bg-city-building.png"
-          alt="Modern city architecture background"
-          fill
-          className="object-cover object-bottom opacity-100"
-          priority={false}
+      {/* ── Vector Background: soft teal gradient, dot grid, glow blobs & layered waves ── */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-0 select-none overflow-hidden">
+        {/* Base gradient: white at top fading into light teal at the bottom */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-primary-light" />
+
+        {/* Subtle dot grid, masked so it fades out toward the top */}
+        <div
+          className="absolute inset-0 opacity-[0.35]"
+          style={{
+            backgroundImage: "radial-gradient(rgba(14, 124, 138, 0.25) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 55%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 55%, transparent 100%)",
+          }}
         />
-        {/* Smooth top gradient fade reaching deeper down for a seamless blend */}
-        <div className="absolute inset-x-0 top-0 h-80 sm:h-96 lg:h-[480px] bg-gradient-to-b from-white via-white/90 via-white/40 to-transparent" />
+
+        {/* Soft glow blobs */}
+        <div
+          className="absolute -left-32 bottom-10 h-[420px] w-[420px] rounded-full opacity-40 blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(45, 212, 191, 0.45) 0%, transparent 70%)" }}
+        />
+        <div
+          className="absolute -right-24 bottom-24 h-[360px] w-[360px] rounded-full opacity-40 blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(14, 124, 138, 0.4) 0%, transparent 70%)" }}
+        />
+
+        {/* Layered waves along the bottom edge */}
+        <svg
+          className="absolute inset-x-0 bottom-0 h-48 w-full sm:h-64 lg:h-80"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="wcu-wave-1" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#5eead4" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#0e7c8a" stopOpacity="0.2" />
+            </linearGradient>
+            <linearGradient id="wcu-wave-2" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#0e7c8a" stopOpacity="0.22" />
+              <stop offset="100%" stopColor="#2dd4bf" stopOpacity="0.3" />
+            </linearGradient>
+            <linearGradient id="wcu-wave-3" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#0e7c8a" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="#0a5e6b" stopOpacity="0.5" />
+            </linearGradient>
+          </defs>
+          <path
+            fill="url(#wcu-wave-1)"
+            d="M0,160 C240,96 480,96 720,144 C960,192 1200,208 1440,128 L1440,320 L0,320 Z"
+          />
+          <path
+            fill="url(#wcu-wave-2)"
+            d="M0,224 C200,176 420,160 680,208 C940,256 1180,248 1440,192 L1440,320 L0,320 Z"
+          />
+          <path
+            fill="url(#wcu-wave-3)"
+            d="M0,272 C260,240 520,248 760,272 C1000,296 1220,288 1440,256 L1440,320 L0,320 Z"
+          />
+          <path
+            fill="none"
+            stroke="#ffffff"
+            strokeOpacity="0.6"
+            strokeWidth="1.5"
+            d="M0,224 C200,176 420,160 680,208 C940,256 1180,248 1440,192"
+          />
+        </svg>
       </div>
 
       <div
