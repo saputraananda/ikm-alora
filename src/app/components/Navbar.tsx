@@ -8,7 +8,7 @@ const navItems = [
   { label: "Beranda", href: "#beranda" },
   { label: "Kemitraan", href: "#our-customers" },
   { label: "Keunggulan", href: "#why-choose-us" },
-  { label: "Flow", href: "#flow" },
+  // { label: "Flow", href: "#flow" },
   { label: "Sustainability", href: "#sustainability" },
   { label: "Testimoni", href: "#testimonials" },
   { label: "Dokumentasi", href: "#dokumentasi" },

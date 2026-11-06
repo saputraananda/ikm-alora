@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import OurCustomers from "./components/OurCustomers";
 import WhyChooseUs from "./components/WhyChooseUs";
-import Flow from "./components/Flow";
+// import Flow from "./components/Flow";
 import Testimonials from "./components/Testimonials";
 import { Sustainability } from "./components/Sustainability";
 import Documentation from "./components/Documentation";
@@ -146,7 +146,7 @@ export default function Home() {
           <Hero />
           <OurCustomers />
           <WhyChooseUs />
-          <Flow />
+          {/* <Flow /> */}
           <Sustainability />
           <Testimonials />
           <Documentation />
