@@ -97,7 +97,7 @@ export const Sustainability: FC = () => {
               Sustainability
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4 sm:mb-6">
-              Pengolahan Limbah Medis yang Ramah Lingkungan
+              Pengolahan Limbah yang Ramah Lingkungan
             </h2>
             <p className="text-slate-600 text-sm sm:text-base md:text-lg max-w-xl mx-auto leading-relaxed font-medium">
               Kami menjaga kebersihan lingkungan dengan sistem pengolahan limbah yang terstandarisasi.
